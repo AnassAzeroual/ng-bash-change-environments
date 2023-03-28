@@ -1,13 +1,15 @@
 #!/bin/bash
 
+CONFIG_FILE="src/assets/config.json"
+
 # Check if config file exists, and create one if not
-if [ ! -f config.json ]
+if [ ! -f "$CONFIG_FILE" ]
 then
-  echo "{}" > config.json
+  echo "{}" > "$CONFIG_FILE"
 fi
 
 # Read the existing config file and extract the keys
-keys=$(grep -oP '(?<=").*(?=":)' config.json)
+keys=$(grep -oP '(?<=").*(?=":)' "$CONFIG_FILE")
 
 # Loop through the keys and check if there's a matching environment variable
 for key in $keys
@@ -19,6 +21,6 @@ do
   if [ ! -z "$env_var" ]
   then
     # Update the value for the key in the config file
-    sed -i "s/\"$key\":[^,]*/\"$key\":\"$env_var\"/" config.json
+    sed -i "s/\"$key\":[^,]*/\"$key\":\"$env_var\"/" "$CONFIG_FILE"
   fi
 done
