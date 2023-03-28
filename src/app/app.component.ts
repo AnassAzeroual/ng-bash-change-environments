@@ -1,4 +1,4 @@
-import { EnvService } from './env.service';
+import { environmentConfig, EnvService } from './env.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,12 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  envConfig!: environmentConfig
   constructor(private srvConfig: EnvService) {
-    srvConfig.loadConfig().subscribe(res => {
-      console.log(res);
-    })
-    console.log(srvConfig.config);
-
+    this.envConfig = srvConfig.config
   }
   title = 'projectTest';
 }
