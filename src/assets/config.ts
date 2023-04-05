@@ -1,4 +1,4 @@
 export const config = {
-    "Angular_v":"15",
-    "Ionic_v":"6"
+    "Angular_v":"150",
+    "Ionic_v":"60"
 }
