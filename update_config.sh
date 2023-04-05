@@ -1,39 +1,16 @@
 #!/bin/bash
 
-CONFIG_FILE="src/assets/config.ts"
+echo "Updating config.ts..."
 
-# Check if config file exists
-if [ ! -f "$CONFIG_FILE" ]
-then
-  echo "Config file not found: $CONFIG_FILE"
-  exit 1
-fi
+# Read the environment variables and create a sed command to update matching keys
+SED_COMMAND=""
+while read -r line; do
+  VAR_NAME=$(echo "$line" | cut -d= -f1)
+  VAR_VALUE=$(echo "$line" | cut -d= -f2-)
+  SED_COMMAND+="s/\b$VAR_NAME:\s*\"[^\"]*\"/$VAR_NAME: \"$VAR_VALUE\"/g;"
+done < <(env | grep -E "^Angular_v=|^Ionic_v=")
 
-# Read the existing config file and extract the keys and values
-while IFS= read -r line
-do
-  if [[ $line =~ ^[[:space:]]*([a-zA-Z_]+):[[:space:]]+'(.*)',?$ ]]
-  then
-    keys+=(${BASH_REMATCH[1]})
-    values+=(${BASH_REMATCH[2]})
-  fi
-done < "$CONFIG_FILE"
+# Execute the sed command to update the config.ts file
+sed -i "$SED_COMMAND" src/assets/config.ts
 
-# Loop through the keys and check if there's a matching environment variable
-for (( i=0; i<${#keys[@]}; i++ ))
-do
-  key=${keys[$i]}
-  value=${values[$i]}
-  echo "Updating config key $key with value $value"
-  # Get the environment variable value if it exists
-  env_var=$(printenv $key)
-
-  # If the environment variable exists, update the config file
-  if [ ! -z "$env_var" ]
-  then
-    echo "Updating config key $key with value $env_var"
-  
-    # Update the value for the key in the config file
-    sed -i "s/$key: '$value'/$key: '$env_var'/" "$CONFIG_FILE"
-  fi
-done
+echo "Config.ts updated."
