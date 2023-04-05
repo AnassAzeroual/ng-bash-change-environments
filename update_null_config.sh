@@ -2,11 +2,11 @@
 
 echo "Updating config.ts..."
 
-# Read the keys in the config.ts file and create a sed command to set all values to null
+# Read the keys in the config.ts file and create a sed command to set all values to empty string
 SED_COMMAND=""
 while read -r line; do
   VAR_NAME=$(echo "$line" | grep -Eo '^[^:]+')
-  SED_COMMAND+="s/\b$VAR_NAME:\s*\"[^\"]*\"/$VAR_NAME: null/g;"
+  SED_COMMAND+="s/\b$VAR_NAME:\s*[^\,\}]*[,\}]/$VAR_NAME: \"\",/g;"
 done < <(grep -Eo '^[^:]+:' src/assets/config.ts)
 
 # Execute the sed command to update the config.ts file
