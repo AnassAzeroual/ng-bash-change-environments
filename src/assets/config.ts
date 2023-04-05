@@ -1,6 +1,7 @@
+// this is config.ts file
 export const config = {
-    Angular_v: "15",
-    Ionic_v: "6",
-    Css_v: "30",
-    Html_v: "60",
+    Angular_v: null,
+    Ionic_v: null,
+    Css_v: null,
+    Html_v: null,
 }
