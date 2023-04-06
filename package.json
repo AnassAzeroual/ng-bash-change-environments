@@ -7,8 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "config": "chmod +x update_config.sh; ./update_config.sh",
-    "null": "chmod +x update_null_config.sh; ./update_null_config.sh"
+    "config": "chmod +x update_config.sh; ./update_config.sh src/assets/config.ts"
   },
   "private": true,
   "dependencies": {

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_FILE="src/assets/config.ts"
+CONFIG_FILE="$1"
 
 echo "Updating $CONFIG_FILE..."
 
